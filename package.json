@@ -17,7 +17,7 @@
     "template",
     "modular"
   ],
-  "author": "",
+  "author": "BenIbo20",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^14.17.3",

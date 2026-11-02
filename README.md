@@ -34,6 +34,12 @@ LOG_TIMEZONE=Europe/Istanbul
 
 ## Kullanım
 
+.env Dosyası oluşturmak için:
+
+```bash
+cp .env.example .env
+```
+
 Slash komutlarını yüklemek için:
 
 ```bash
