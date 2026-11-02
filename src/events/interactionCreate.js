@@ -9,29 +9,28 @@ export const execute = async (interaction) => {
   const command = interaction.client.commands.get(interaction.commandName);
 
   if (!command) {
-    logger.warn(`No command matching ${interaction.commandName} was found.`);
+    logger.warn(`${interaction.commandName} adında bir komut bulunamadı.`);
     return;
   }
 
   try {
     await command.execute(interaction);
   } catch (error) {
-    logger.error(`Error executing command ${interaction.commandName}:`, error);
+    logger.error(`${interaction.commandName} komutu yürütülürken hata oluştu:`, error);
 
     const replyPayload = {
-      content: 'There was an error while executing this command.',
+      content: 'Bu komut yürütülürken bir hata oluştu.',
       ephemeral: true
     };
 
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp(replyPayload).catch((err) => {
-        logger.error('Error sending error followUp:', err);
+        logger.error('Hata bildirimi (followUp) gönderilemedi:', err);
       });
     } else {
       await interaction.reply(replyPayload).catch((err) => {
-        logger.error('Error sending error reply:', err);
+        logger.error('Hata bildirimi (reply) gönderilemedi:', err);
       });
     }
   }
 };
-

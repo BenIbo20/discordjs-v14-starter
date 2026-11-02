@@ -4,14 +4,14 @@ import { pathToFileURL } from 'node:url';
 import logger from '../utils/logger.js';
 
 export const loadCommands = async (client) => {
-  logger.info('Loading commands...');
+  logger.info('Komutlar yükleniyor...');
   const commandsPath = join(process.cwd(), 'src', 'commands');
   let commandFiles = [];
 
   try {
     commandFiles = readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
   } catch (error) {
-    logger.error('Failed to read commands directory:', error);
+    logger.error('Komutlar dizini okunamadı:', error);
     return;
   }
 
@@ -22,21 +22,20 @@ export const loadCommands = async (client) => {
       const command = commandModule.data && commandModule.execute ? commandModule : commandModule.default;
 
       if (!command || !command.data?.name || typeof command.execute !== 'function') {
-        logger.warn(`Invalid command structure in ${file}.`);
+        logger.warn(`${file} dosyasında geçersiz komut yapısı.`);
         continue;
       }
 
       if (client.commands.has(command.data.name)) {
-        logger.warn(`Duplicate command detected: "${command.data.name}" in ${file}.`);
+        logger.warn(`Yinelenen komut tespit edildi: "${command.data.name}" (${file}).`);
         continue;
       }
 
       client.commands.set(command.data.name, command);
     } catch (error) {
-      logger.error(`Failed to load command ${file}:`, error);
+      logger.error(`${file} komutu yüklenemedi:`, error);
     }
   }
 
-  logger.success('Commands loaded successfully.');
+  logger.success('Komutlar başarıyla yüklendi.');
 };
-

@@ -54,7 +54,7 @@ const log = (type, color, ...args) => {
     const message = args.map(formatArg).join(' ');
     console.log(`${COLORS.GRAY}[${timestamp}]${COLORS.RESET} ${color}[${type}]${COLORS.RESET} ${COLORS.WHITE}${message}${COLORS.RESET}`);
   } catch {
-    console.log(`${COLORS.RED}[ERROR]${COLORS.RESET} ${COLORS.WHITE}Logging failure occurred.${COLORS.RESET}`);
+    console.log(`${COLORS.RED}[ERROR]${COLORS.RESET} ${COLORS.WHITE}Günlükleme (log) hatası oluştu.${COLORS.RESET}`);
   }
 };
 

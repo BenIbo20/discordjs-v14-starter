@@ -4,14 +4,14 @@ import { pathToFileURL } from 'node:url';
 import logger from '../utils/logger.js';
 
 export const loadEvents = async (client) => {
-  logger.info('Loading events...');
+  logger.info('Olaylar (events) yükleniyor...');
   const eventsPath = join(process.cwd(), 'src', 'events');
   let eventFiles = [];
 
   try {
     eventFiles = readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
   } catch (error) {
-    logger.error('Failed to read events directory:', error);
+    logger.error('Olaylar dizini okunamadı:', error);
     return;
   }
 
@@ -22,7 +22,7 @@ export const loadEvents = async (client) => {
       const event = eventModule.name && eventModule.execute ? eventModule : eventModule.default;
 
       if (!event || !event.name || typeof event.execute !== 'function') {
-        logger.warn(`Invalid event structure in ${file}.`);
+        logger.warn(`${file} dosyasında geçersiz olay yapısı.`);
         continue;
       }
 
@@ -32,10 +32,9 @@ export const loadEvents = async (client) => {
         client.on(event.name, (...args) => event.execute(...args));
       }
     } catch (error) {
-      logger.error(`Failed to load event ${file}:`, error);
+      logger.error(`${file} olayı yüklenemedi:`, error);
     }
   }
 
-  logger.success('Events loaded successfully.');
+  logger.success('Olaylar başarıyla yüklendi.');
 };
-

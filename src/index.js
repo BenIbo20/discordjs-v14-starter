@@ -5,11 +5,11 @@ import { loadCommands } from './handlers/commandHandler.js';
 import { loadEvents } from './handlers/eventHandler.js';
 
 process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception:', error);
+  logger.error('Yakalanmayan Hata (uncaughtException):', error);
 });
 
 process.on('unhandledRejection', (reason) => {
-  logger.error('Unhandled Rejection:', reason);
+  logger.error('İşlenmeyen Promise Reddi (unhandledRejection):', reason);
 });
 
 const validateEnvironment = () => {
@@ -18,7 +18,7 @@ const validateEnvironment = () => {
   if (!process.env.CLIENT_ID) missing.push('CLIENT_ID');
 
   if (missing.length > 0) {
-    logger.error(`Missing required environment variables: ${missing.join(', ')}`);
+    logger.error(`Gerekli ortam değişkenleri eksik: ${missing.join(', ')}`);
     process.exit(1);
   }
 };
@@ -26,7 +26,7 @@ const validateEnvironment = () => {
 const startBot = async () => {
   validateEnvironment();
 
-  logger.info('Bot starting...');
+  logger.info('Bot başlatılıyor...');
 
   const client = new Client({
     intents: [GatewayIntentBits.Guilds]
@@ -40,10 +40,9 @@ const startBot = async () => {
   try {
     await client.login(process.env.BOT_TOKEN);
   } catch (error) {
-    logger.error('Failed to log in to Discord:', error);
+    logger.error('Discord\'a giriş yapılamadı:', error);
     process.exit(1);
   }
 };
 
 startBot();
-
